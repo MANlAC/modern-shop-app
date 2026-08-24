@@ -100,6 +100,12 @@ export function Navbar({ onCartOpen }: { onCartOpen: () => void }) {
                   <ClipboardList className="mr-2 size-3.5" />
                   My Orders
                 </DropdownMenuItem>
+                {!isAdmin && (
+                  <DropdownMenuItem onClick={() => navigate("/admin/setup")}>
+                    <Shield className="mr-2 size-3.5 text-primary" />
+                    Set Up Admin
+                  </DropdownMenuItem>
+                )}
                 {isAdmin && (
                   <DropdownMenuItem onClick={() => navigate("/admin")}>
                     <ShieldCheck className="mr-2 size-3.5 text-primary" />
