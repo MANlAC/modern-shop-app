@@ -7,6 +7,7 @@ import { api } from "@/convex/_generated/api";
 import { formatNPR } from "@/lib/format";
 import type { Product } from "@/types/store";
 import { Navbar } from "@/components/Navbar";
+import { Footer } from "@/components/Footer";
 import { CartSheet } from "@/components/CartSheet";
 import { useState } from "react";
 
@@ -297,22 +298,7 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="border-t border-border/40">
-        <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-          <div className="flex flex-col items-center justify-between gap-3 sm:flex-row">
-            <div className="flex items-center gap-2">
-              <div className="flex size-6 items-center justify-center rounded bg-primary text-[10px] font-bold text-primary-foreground">
-                M
-              </div>
-              <span className="text-xs font-bold">Modern Shop</span>
-            </div>
-            <p className="text-[11px] text-muted-foreground">
-              © 2026 Modern Shop. All rights reserved.
-            </p>
-          </div>
-        </div>
-      </footer>
+      <Footer />
 
       <CartSheet open={cartOpen} onOpenChange={setCartOpen} />
     </div>

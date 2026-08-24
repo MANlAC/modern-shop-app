@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Navbar } from "@/components/Navbar";
+import { Footer } from "@/components/Footer";
 import { CartSheet } from "@/components/CartSheet";
 import { ProductCard } from "@/components/ProductCard";
 import { useQuery, useMutation } from "convex/react";
@@ -133,6 +134,7 @@ export default function Store() {
         )}
       </div>
 
+      <Footer />
       <CartSheet open={cartOpen} onOpenChange={setCartOpen} />
     </div>
   );
