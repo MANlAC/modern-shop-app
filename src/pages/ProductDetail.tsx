@@ -10,6 +10,7 @@ import { useParams, useNavigate } from "react-router";
 import { motion } from "framer-motion";
 import { ArrowLeft, Plus, Check, Minus, ShoppingBag } from "lucide-react";
 import { useState } from "react";
+import { formatNPR } from "@/lib/format";
 import type { Product } from "@/types/store";
 
 export default function ProductDetail() {
@@ -113,7 +114,7 @@ export default function ProductDetail() {
 
             <div className="mt-4 flex items-center gap-3">
               <span className="text-3xl font-bold text-foreground">
-                ${product.price.toFixed(2)}
+                {formatNPR(product.price)}
               </span>
               {product.inStock ? (
                 <Badge

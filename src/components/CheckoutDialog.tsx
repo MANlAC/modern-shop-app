@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/hooks/use-cart";
+import { formatNPR } from "@/lib/format";
 import { useAuth } from "@/hooks/use-auth";
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
@@ -124,7 +125,7 @@ export function CheckoutDialog({
                 </div>
               </div>
               <span className="font-medium">
-                ${(item.product.price * item.quantity).toFixed(2)}
+                {formatNPR(item.product.price * item.quantity)}
               </span>
             </div>
           ))}
@@ -133,7 +134,7 @@ export function CheckoutDialog({
         <div className="border-t border-border/60 pt-3">
           <div className="flex items-center justify-between text-base font-semibold">
             <span>Total</span>
-            <span>${total.toFixed(2)}</span>
+            <span>{formatNPR(total)}</span>
           </div>
         </div>
 
@@ -152,7 +153,7 @@ export function CheckoutDialog({
                 Placing...
               </>
             ) : (
-              `Place Order — $${total.toFixed(2)}`
+              `Place Order — ${formatNPR(total)}`
             )}
           </Button>
         </DialogFooter>

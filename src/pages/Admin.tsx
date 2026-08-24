@@ -8,7 +8,7 @@ import { CartSheet } from "@/components/CartSheet";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { useAuth } from "@/hooks/use-auth";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import {
   ArrowLeft,
   Plus,
@@ -21,7 +21,6 @@ import {
   Truck,
   AlertCircle,
   Loader2,
-  X,
 } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router";
@@ -34,6 +33,10 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { toast } from "sonner";
+
+function formatNPR(n: number) {
+  return `Rs.${n.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+}
 
 export default function Admin() {
   const { user } = useAuth();
@@ -162,72 +165,6 @@ export default function Admin() {
     delivered: { label: "Delivered", icon: Package },
   };
 
-  const ProductForm = () => (
-    <div className="space-y-4">
-      <div className="grid grid-cols-2 gap-4">
-        <div>
-          <Label className="text-xs font-semibold">Name</Label>
-          <Input
-            value={formName}
-            onChange={(e) => setFormName(e.target.value)}
-            placeholder="Product name"
-            className="mt-1 h-9 text-sm"
-          />
-        </div>
-        <div>
-          <Label className="text-xs font-semibold">Category</Label>
-          <Input
-            value={formCategory}
-            onChange={(e) => setFormCategory(e.target.value)}
-            placeholder="e.g. Kitchen"
-            className="mt-1 h-9 text-sm"
-          />
-        </div>
-      </div>
-      <div>
-        <Label className="text-xs font-semibold">Description</Label>
-        <Textarea
-          value={formDescription}
-          onChange={(e) => setFormDescription(e.target.value)}
-          placeholder="Product description"
-          className="mt-1 text-sm"
-          rows={3}
-        />
-      </div>
-      <div className="grid grid-cols-2 gap-4">
-        <div>
-          <Label className="text-xs font-semibold">Price ($)</Label>
-          <Input
-            type="number"
-            step="0.01"
-            value={formPrice}
-            onChange={(e) => setFormPrice(e.target.value)}
-            placeholder="0.00"
-            className="mt-1 h-9 text-sm"
-          />
-        </div>
-        <div>
-          <Label className="text-xs font-semibold">Image URL</Label>
-          <Input
-            value={formImageUrl}
-            onChange={(e) => setFormImageUrl(e.target.value)}
-            placeholder="https://..."
-            className="mt-1 h-9 text-sm"
-          />
-        </div>
-      </div>
-      <div className="flex items-center gap-2">
-        <input
-          type="checkbox"
-          checked={formInStock}
-          onChange={(e) => setFormInStock(e.target.checked)}
-          className="accent-primary"
-        />
-        <Label className="text-xs font-semibold">In Stock</Label>
-      </div>
-    </div>
-  );
-
   return (
     <div className="min-h-screen bg-background">
       <Navbar onCartOpen={() => setCartOpen(true)} />
@@ -260,7 +197,7 @@ export default function Admin() {
             { label: "Pending", value: orders?.filter((o) => o.status === "pending").length ?? 0, icon: Clock },
             {
               label: "Revenue",
-              value: `$${(orders?.reduce((s, o) => s + o.total, 0) ?? 0).toFixed(0)}`,
+              value: formatNPR(orders?.reduce((s, o) => s + o.total, 0) ?? 0),
               icon: CheckCircle,
             },
           ].map((stat) => (
@@ -330,7 +267,7 @@ export default function Admin() {
                       )}
                     </div>
                     <p className="text-xs text-muted-foreground">
-                      {p.category} · ${p.price.toFixed(2)}
+                      {p.category} · {formatNPR(p.price)}
                     </p>
                   </div>
                   <div className="flex items-center gap-1">
@@ -405,7 +342,7 @@ export default function Admin() {
                       </div>
                       <div className="flex items-center gap-3">
                         <span className="text-sm font-bold">
-                          ${order.total.toFixed(2)}
+                          {formatNPR(order.total)}
                         </span>
                         <select
                           value={order.status}
@@ -434,7 +371,7 @@ export default function Admin() {
                             {item.name} × {item.quantity}
                           </span>
                           <span className="font-medium">
-                            ${(item.price * item.quantity).toFixed(2)}
+                            {formatNPR(item.price * item.quantity)}
                           </span>
                         </div>
                       ))}
@@ -447,7 +384,7 @@ export default function Admin() {
         </div>
       </div>
 
-      {/* Product Form Dialog */}
+      {/* Product Form Dialog — form JSX is inlined to avoid remount on each keystroke */}
       <Dialog
         open={showNewProduct || editingProduct !== null}
         onOpenChange={(open) => {
@@ -464,7 +401,71 @@ export default function Admin() {
               {editingProduct ? "Edit Product" : "Add Product"}
             </DialogTitle>
           </DialogHeader>
-          <ProductForm />
+
+          <div className="space-y-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <Label className="text-xs font-semibold">Name</Label>
+                <Input
+                  value={formName}
+                  onChange={(e) => setFormName(e.target.value)}
+                  placeholder="Product name"
+                  className="mt-1 h-9 text-sm"
+                />
+              </div>
+              <div>
+                <Label className="text-xs font-semibold">Category</Label>
+                <Input
+                  value={formCategory}
+                  onChange={(e) => setFormCategory(e.target.value)}
+                  placeholder="e.g. Kitchen"
+                  className="mt-1 h-9 text-sm"
+                />
+              </div>
+            </div>
+            <div>
+              <Label className="text-xs font-semibold">Description</Label>
+              <Textarea
+                value={formDescription}
+                onChange={(e) => setFormDescription(e.target.value)}
+                placeholder="Product description"
+                className="mt-1 text-sm"
+                rows={3}
+              />
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <Label className="text-xs font-semibold">Price (Rs.)</Label>
+                <Input
+                  type="number"
+                  step="0.01"
+                  value={formPrice}
+                  onChange={(e) => setFormPrice(e.target.value)}
+                  placeholder="0.00"
+                  className="mt-1 h-9 text-sm"
+                />
+              </div>
+              <div>
+                <Label className="text-xs font-semibold">Image URL</Label>
+                <Input
+                  value={formImageUrl}
+                  onChange={(e) => setFormImageUrl(e.target.value)}
+                  placeholder="https://..."
+                  className="mt-1 h-9 text-sm"
+                />
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              <input
+                type="checkbox"
+                checked={formInStock}
+                onChange={(e) => setFormInStock(e.target.checked)}
+                className="accent-primary"
+              />
+              <Label className="text-xs font-semibold">In Stock</Label>
+            </div>
+          </div>
+
           <DialogFooter>
             <Button
               variant="outline"

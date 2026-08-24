@@ -4,6 +4,7 @@ import { useAuth } from "@/hooks/use-auth";
 import { Plus, Check } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import { formatNPR } from "@/lib/format";
 import type { Product } from "@/types/store";
 import { motion } from "framer-motion";
 
@@ -61,7 +62,7 @@ export function ProductCard({ product }: { product: Product }) {
 
         <div className="mt-auto flex items-end justify-between pt-3">
           <span className="text-base font-bold text-foreground">
-            ${product.price.toFixed(2)}
+            {formatNPR(product.price)}
           </span>
           <Button
             size="sm"

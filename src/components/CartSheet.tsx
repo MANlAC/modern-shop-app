@@ -7,6 +7,7 @@ import {
   SheetDescription,
 } from "@/components/ui/sheet";
 import { useCart } from "@/hooks/use-cart";
+import { formatNPR } from "@/lib/format";
 import { Minus, Plus, Trash2, ShoppingBag } from "lucide-react";
 import { useState } from "react";
 import { CheckoutDialog } from "./CheckoutDialog";
@@ -67,7 +68,7 @@ export function CartSheet({ open, onOpenChange }: CartSheetProps) {
                           {item.product.name}
                         </h4>
                         <p className="mt-0.5 text-xs text-muted-foreground">
-                          ${item.product.price.toFixed(2)}
+                          {formatNPR(item.product.price)}
                         </p>
                       </div>
                       <div className="flex items-center justify-between">
@@ -122,7 +123,7 @@ export function CartSheet({ open, onOpenChange }: CartSheetProps) {
             <div className="border-t border-border/60 pt-4 space-y-3">
               <div className="flex items-center justify-between text-sm">
                 <span className="text-muted-foreground">Subtotal</span>
-                <span className="font-semibold">${total.toFixed(2)}</span>
+                <span className="font-semibold">{formatNPR(total)}</span>
               </div>
               <Button
                 className="w-full"
@@ -132,7 +133,7 @@ export function CartSheet({ open, onOpenChange }: CartSheetProps) {
                   setCheckoutOpen(true);
                 }}
               >
-                Checkout — ${total.toFixed(2)}
+                Checkout — {formatNPR(total)}
               </Button>
             </div>
           )}

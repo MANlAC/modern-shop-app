@@ -7,6 +7,7 @@ import { Package, Clock, CheckCircle, Truck, ArrowLeft } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router";
+import { formatNPR } from "@/lib/format";
 import { useState } from "react";
 import type { Order } from "@/types/store";
 
@@ -105,7 +106,7 @@ export default function Orders() {
                       </p>
                     </div>
                     <span className="text-base font-bold text-foreground">
-                      ${order.total.toFixed(2)}
+                      {formatNPR(order.total)}
                     </span>
                   </div>
 
@@ -119,7 +120,7 @@ export default function Orders() {
                           {item.name} × {item.quantity}
                         </span>
                         <span className="font-medium text-foreground">
-                          ${(item.price * item.quantity).toFixed(2)}
+                          {formatNPR(item.price * item.quantity)}
                         </span>
                       </div>
                     ))}

@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { ArrowRight, Zap, Shield, Truck, Terminal, Code2 } from "lucide-react";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
+import { formatNPR } from "@/lib/format";
 import type { Product } from "@/types/store";
 import { Navbar } from "@/components/Navbar";
 import { CartSheet } from "@/components/CartSheet";
@@ -221,7 +222,7 @@ export default function Landing() {
                     <h3 className="text-sm font-bold">{product.name}</h3>
                     <div className="mt-3 flex items-center justify-between">
                       <span className="text-base font-bold">
-                        ${product.price.toFixed(2)}
+                        {formatNPR(product.price)}
                       </span>
                       <Button
                         size="sm"
