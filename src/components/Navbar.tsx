@@ -3,9 +3,9 @@ import { useCart } from "@/hooks/use-cart";
 import { useAuth } from "@/hooks/use-auth";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import {
   ShoppingBag,
-  Store,
   User,
   LogOut,
   Shield,
@@ -118,8 +118,7 @@ export function Navbar({ onCartOpen }: { onCartOpen: () => void }) {
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
-          ) : (
-            <Button
+          ) : (          <Button
               variant="ghost"
               size="sm"
               className="text-sm font-medium"
@@ -128,6 +127,10 @@ export function Navbar({ onCartOpen }: { onCartOpen: () => void }) {
               Sign in
             </Button>
           )}
+
+          <div className="ml-1 border-l border-border/40 pl-2.5">
+            <ThemeToggle />
+          </div>
         </div>
       </div>
     </nav>

@@ -3,6 +3,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { RequireAuth } from "@/components/RequireAuth";
 import { VlyToolbar } from "../vly-toolbar-readonly.tsx";
 import { RequireAdmin } from "@/components/RequireAdmin";
+import { ThemeProvider } from "@/hooks/use-theme";
 import { CartProvider } from "@/hooks/use-cart";
 import { ConvexAuthProvider } from "@convex-dev/auth/react";
 import { ConvexReactClient } from "convex/react";
@@ -121,6 +122,7 @@ createRoot(document.getElementById("root")!).render(
         <VlyToolbar />
       </ToolbarErrorBoundary>
       <ConvexAuthProvider client={convex}>
+        <ThemeProvider>
         <CartProvider>
         <BrowserRouter>
           <RouteSyncer />
@@ -157,6 +159,7 @@ createRoot(document.getElementById("root")!).render(
           </Suspense>
         </BrowserRouter>
         </CartProvider>
+        </ThemeProvider>
         <Toaster />
       </ConvexAuthProvider>
     </RootErrorBoundary>
