@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { Navbar } from "@/components/Navbar";
 import { CartSheet } from "@/components/CartSheet";
 import { ProductCard } from "@/components/ProductCard";
@@ -39,47 +38,46 @@ export default function Store() {
       <Navbar onCartOpen={() => setCartOpen(true)} />
 
       {/* Header */}
-      <div className="border-b border-border/60 bg-secondary/30">
-        <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+      <div className="border-b border-border/40">
+        <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.4 }}
           >
-            <p className="mb-1 text-xs font-medium uppercase tracking-widest text-muted-foreground">
-              Shop
+            <p className="mb-1 text-[10px] font-semibold uppercase tracking-widest text-primary">
+              Catalog
             </p>
-            <h1 className="text-4xl font-bold tracking-tight">
-              Our Collection
+            <h1 className="text-3xl font-bold tracking-tight text-foreground">
+              All Products
             </h1>
-            <p className="mt-3 max-w-lg text-muted-foreground">
-              Browse our curated selection of home goods, office essentials,
-              and kitchenware.
+            <p className="mt-2 max-w-md text-sm text-muted-foreground">
+              Browse, search, and filter through the full product catalog.
             </p>
           </motion.div>
         </div>
       </div>
 
-      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
         {/* Filters */}
-        <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div className="relative max-w-sm flex-1">
             <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
             <input
               type="text"
-              placeholder="Search products..."
+              placeholder="Search by name or description..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="h-10 w-full rounded-xl border border-border/60 bg-card pl-9 pr-4 text-sm outline-none transition-colors placeholder:text-muted-foreground focus:border-ring/50 focus:ring-1 focus:ring-ring/30"
+              className="h-9 w-full rounded-lg border border-border/50 bg-card pl-9 pr-4 text-sm outline-none transition-colors placeholder:text-muted-foreground/60 focus:border-primary/40 focus:ring-1 focus:ring-primary/20"
             />
           </div>
 
           {categories && categories.length > 0 && (
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-1.5">
               <Button
                 variant={selectedCategory === null ? "default" : "outline"}
                 size="sm"
-                className="rounded-full"
+                className="h-8 rounded-lg px-3 text-xs font-semibold"
                 onClick={() => setSelectedCategory(null)}
               >
                 All
@@ -89,7 +87,7 @@ export default function Store() {
                   key={cat}
                   variant={selectedCategory === cat ? "default" : "outline"}
                   size="sm"
-                  className="rounded-full"
+                  className="h-8 rounded-lg px-3 text-xs font-semibold"
                   onClick={() =>
                     setSelectedCategory(selectedCategory === cat ? null : cat)
                   }
@@ -101,28 +99,35 @@ export default function Store() {
           )}
         </div>
 
+        {/* Product count */}
+        {filteredProducts && (
+          <p className="mb-4 text-xs text-muted-foreground">
+            {filteredProducts.length} product{filteredProducts.length !== 1 ? "s" : ""}
+          </p>
+        )}
+
         {/* Product Grid */}
         {products === undefined ? (
           <div className="flex flex-col items-center justify-center py-24">
-            <Loader2 className="mb-4 size-8 animate-spin text-muted-foreground" />
-            <p className="text-sm text-muted-foreground">Loading products...</p>
+            <Loader2 className="mb-4 size-6 animate-spin text-primary" />
+            <p className="text-sm text-muted-foreground">Loading catalog...</p>
           </div>
         ) : filteredProducts && filteredProducts.length > 0 ? (
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {filteredProducts.map((product) => (
               <ProductCard key={product._id} product={product} />
             ))}
           </div>
         ) : (
-          <div className="flex flex-col items-center justify-center py-24">
-            <div className="mb-4 flex size-14 items-center justify-center rounded-2xl bg-secondary">
-              <Package className="size-6 text-muted-foreground" />
+          <div className="flex flex-col items-center justify-center rounded-xl border border-border/40 bg-card/50 py-20">
+            <div className="mb-3 flex size-12 items-center justify-center rounded-xl bg-secondary text-muted-foreground">
+              <Package className="size-5" />
             </div>
-            <h3 className="text-lg font-semibold">No products found</h3>
+            <h3 className="text-base font-bold">No products found</h3>
             <p className="mt-1 text-sm text-muted-foreground">
               {searchQuery || selectedCategory
-                ? "Try adjusting your filters."
-                : "Products will appear here soon."}
+                ? "Try adjusting your search or filters."
+                : "The catalog is empty. Check back soon."}
             </p>
           </div>
         )}

@@ -2,6 +2,7 @@ import '@vly-ai/integrations';
 import { Toaster } from "@/components/ui/sonner";
 import { RequireAuth } from "@/components/RequireAuth";
 import { VlyToolbar } from "../vly-toolbar-readonly.tsx";
+import { RequireAdmin } from "@/components/RequireAdmin";
 import { CartProvider } from "@/hooks/use-cart";
 import { ConvexAuthProvider } from "@convex-dev/auth/react";
 import { ConvexReactClient } from "convex/react";
@@ -14,7 +15,10 @@ import "./index.css";
 const Landing = lazy(() => import("./pages/Landing.tsx"));
 const AuthPage = lazy(() => import("./pages/Auth.tsx"));
 const Store = lazy(() => import("./pages/Store.tsx"));
+const ProductDetail = lazy(() => import("./pages/ProductDetail.tsx"));
 const Orders = lazy(() => import("./pages/Orders.tsx"));
+const Admin = lazy(() => import("./pages/Admin.tsx"));
+const AdminSetup = lazy(() => import("./pages/AdminSetup.tsx"));
 const NotFound = lazy(() => import("./pages/NotFound.tsx"));
 
 // Simple loading fallback for route transitions
@@ -128,6 +132,7 @@ createRoot(document.getElementById("root")!).render(
                 element={<AuthPage redirectAfterAuth="/store" />}
               />
               <Route path="/store" element={<Store />} />
+              <Route path="/product/:id" element={<ProductDetail />} />
               <Route
                 path="/orders"
                 element={
@@ -136,6 +141,17 @@ createRoot(document.getElementById("root")!).render(
                   </RequireAuth>
                 }
               />
+              <Route
+                path="/admin"
+                element={
+                  <RequireAuth>
+                    <RequireAdmin>
+                      <Admin />
+                    </RequireAdmin>
+                  </RequireAuth>
+                }
+              />
+              <Route path="/admin/setup" element={<AdminSetup />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>

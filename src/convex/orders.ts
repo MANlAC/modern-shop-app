@@ -63,3 +63,38 @@ export const get = query({
     return order;
   },
 });
+
+/** Get all orders (admin only) */
+export const allOrders = query({
+  args: {},
+  handler: async (ctx) => {
+    const userId = await getAuthUserId(ctx);
+    if (!userId) return [];
+    const user = await ctx.db.get(userId);
+    if (!user || user.role !== "admin") return [];
+
+    return await ctx.db.query("orders").order("desc").collect();
+  },
+});
+
+/** Update order status (admin only) */
+export const updateStatus = mutation({
+  args: {
+    id: v.id("orders"),
+    status: v.union(
+      v.literal("pending"),
+      v.literal("confirmed"),
+      v.literal("shipped"),
+      v.literal("delivered"),
+    ),
+  },
+  handler: async (ctx, args) => {
+    const userId = await getAuthUserId(ctx);
+    if (!userId) throw new Error("Must be signed in");
+    const user = await ctx.db.get(userId);
+    if (!user || user.role !== "admin") throw new Error("Admin access required");
+
+    await ctx.db.patch(args.id, { status: args.status });
+    return "ok";
+  },
+});

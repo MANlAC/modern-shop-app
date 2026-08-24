@@ -26,29 +26,29 @@ export default function Orders() {
     <div className="min-h-screen bg-background">
       <Navbar onCartOpen={() => setCartOpen(true)} />
 
-      <div className="mx-auto max-w-3xl px-4 py-12 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-3xl px-4 py-10 sm:px-6 lg:px-8">
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.4 }}
         >
           <Button
             variant="ghost"
             size="sm"
-            className="mb-6 gap-1"
+            className="mb-6 gap-1 text-xs"
             onClick={() => navigate("/store")}
           >
-            <ArrowLeft className="size-4" />
+            <ArrowLeft className="size-3.5" />
             Back to Store
           </Button>
 
-          <h1 className="text-3xl font-bold tracking-tight">My Orders</h1>
-          <p className="mt-2 text-muted-foreground">
-            Track your recent orders and their status.
+          <h1 className="text-2xl font-bold tracking-tight">Order History</h1>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Track your recent purchases and delivery status.
           </p>
         </motion.div>
 
-        <div className="mt-8 space-y-4">
+        <div className="mt-6 space-y-3">
           {orders === undefined ? (
             <div className="flex justify-center py-12">
               <div className="animate-pulse text-sm text-muted-foreground">
@@ -56,19 +56,19 @@ export default function Orders() {
               </div>
             </div>
           ) : orders.length === 0 ? (
-            <div className="flex flex-col items-center rounded-2xl border border-border/60 bg-card py-16">
-              <div className="mb-4 flex size-14 items-center justify-center rounded-2xl bg-secondary">
-                <Package className="size-6 text-muted-foreground" />
+            <div className="flex flex-col items-center rounded-xl border border-border/40 bg-card py-16">
+              <div className="mb-3 flex size-12 items-center justify-center rounded-xl bg-secondary text-muted-foreground/50">
+                <Package className="size-5" />
               </div>
-              <h3 className="text-lg font-semibold">No orders yet</h3>
+              <h3 className="text-base font-bold">No orders yet</h3>
               <p className="mt-1 text-sm text-muted-foreground">
-                When you place an order, it will appear here.
+                Your orders will appear here after you make a purchase.
               </p>
               <Button
-                className="mt-6"
+                className="mt-5 gap-1.5 text-xs font-semibold"
                 onClick={() => navigate("/store")}
               >
-                Start Shopping
+                Browse Products
               </Button>
             </div>
           ) : (
@@ -78,19 +78,19 @@ export default function Orders() {
               return (
                 <motion.div
                   key={order._id}
-                  initial={{ opacity: 0, y: 16 }}
+                  initial={{ opacity: 0, y: 12 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, delay: i * 0.05 }}
-                  className="rounded-2xl border border-border/60 bg-card p-5 shadow-sm"
+                  transition={{ duration: 0.3, delay: i * 0.04 }}
+                  className="rounded-xl border border-border/40 bg-card p-4"
                 >
-                  <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+                  <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                     <div>
-                      <div className="flex items-center gap-3">
-                        <h3 className="text-sm font-semibold">
-                          Order #{order._id.slice(-8).toUpperCase()}
+                      <div className="flex items-center gap-2">
+                        <h3 className="text-sm font-bold">
+                          #{order._id.slice(-8).toUpperCase()}
                         </h3>
-                        <Badge variant={status.variant}>
-                          <StatusIcon className="mr-1 size-3" />
+                        <Badge variant={status.variant} className="gap-1 text-[10px]">
+                          <StatusIcon className="size-2.5" />
                           {status.label}
                         </Badge>
                       </div>
@@ -104,21 +104,21 @@ export default function Orders() {
                         })}
                       </p>
                     </div>
-                    <span className="text-lg font-bold">
+                    <span className="text-base font-bold text-foreground">
                       ${order.total.toFixed(2)}
                     </span>
                   </div>
 
-                  <div className="mt-4 space-y-2 border-t border-border/60 pt-4">
+                  <div className="mt-3 space-y-1.5 border-t border-border/30 pt-3">
                     {order.items.map((item, j) => (
                       <div
                         key={j}
-                        className="flex items-center justify-between text-sm"
+                        className="flex items-center justify-between text-xs"
                       >
                         <span className="text-muted-foreground">
                           {item.name} × {item.quantity}
                         </span>
-                        <span className="font-medium">
+                        <span className="font-medium text-foreground">
                           ${(item.price * item.quantity).toFixed(2)}
                         </span>
                       </div>

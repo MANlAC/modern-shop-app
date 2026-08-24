@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router";
 import { motion } from "framer-motion";
-import { ArrowRight, Package, Shield, Truck } from "lucide-react";
+import { ArrowRight, Zap, Shield, Truck, Terminal, Code2 } from "lucide-react";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import type { Product } from "@/types/store";
@@ -22,17 +22,28 @@ export default function Landing() {
   const [cartOpen, setCartOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background text-foreground">
       <Navbar onCartOpen={() => setCartOpen(true)} />
 
       {/* Hero */}
       <section className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-accent/40 via-background to-secondary/60" />
+        {/* Background grid pattern */}
+        <div
+          className="absolute inset-0 opacity-[0.03]"
+          style={{
+            backgroundImage:
+              "linear-gradient(oklch(0.78 0.18 210) 1px, transparent 1px), linear-gradient(90deg, oklch(0.78 0.18 210) 1px, transparent 1px)",
+            backgroundSize: "60px 60px",
+          }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-transparent" />
+
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex min-h-[80vh] flex-col items-center justify-center py-24 text-center">
+          <div className="flex min-h-[85vh] flex-col items-center justify-center py-24 text-center">
             <motion.div {...fadeUp}>
-              <span className="mb-6 inline-block rounded-full border border-border/60 bg-card/80 px-4 py-1.5 text-xs font-medium tracking-wide text-muted-foreground backdrop-blur-sm">
-                Curated objects for everyday living
+              <span className="mb-6 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-4 py-1.5 text-xs font-semibold tracking-wide text-primary">
+                <Terminal className="size-3" />
+                Built for performance
               </span>
             </motion.div>
 
@@ -40,11 +51,13 @@ export default function Landing() {
               initial={{ opacity: 0, y: 32 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.1 }}
-              className="max-w-3xl text-5xl font-bold leading-[1.1] tracking-tight sm:text-6xl lg:text-7xl"
+              className="max-w-4xl text-5xl font-bold leading-[1.08] tracking-tight sm:text-6xl lg:text-7xl"
             >
-              Thoughtfully designed,
+              The platform for
               <br />
-              <span className="text-muted-foreground">beautifully made.</span>
+              <span className="text-gradient-primary">
+                modern commerce.
+              </span>
             </motion.h1>
 
             <motion.p
@@ -53,9 +66,8 @@ export default function Landing() {
               transition={{ duration: 0.7, delay: 0.2 }}
               className="mt-6 max-w-lg text-lg leading-relaxed text-muted-foreground"
             >
-              Discover a curated collection of home goods, office essentials,
-              and kitchenware — crafted for those who appreciate quality over
-              quantity.
+              A clean, fast storefront where customers browse products and
+              place orders. No clutter, no bloat — just what works.
             </motion.p>
 
             <motion.div
@@ -66,44 +78,78 @@ export default function Landing() {
             >
               <Button
                 size="lg"
-                className="rounded-full px-8 text-base"
+                className="gap-2 rounded-lg px-8 text-sm font-semibold glow-primary"
                 onClick={() => navigate("/store")}
               >
-                Browse Collection
-                <ArrowRight className="ml-2 size-4" />
+                Browse Products
+                <ArrowRight className="size-4" />
               </Button>
               <Button
                 size="lg"
                 variant="outline"
-                className="rounded-full px-8 text-base"
+                className="rounded-lg px-8 text-sm font-semibold"
                 onClick={() => navigate("/auth")}
               >
-                Create Account
+                <Code2 className="mr-2 size-4" />
+                Sign In
               </Button>
+            </motion.div>
+
+            {/* Terminal-style code snippet */}
+            <motion.div
+              initial={{ opacity: 0, y: 32 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.45 }}
+              className="mt-16 w-full max-w-lg overflow-hidden rounded-xl border border-border/50 bg-card/80 text-left backdrop-blur"
+            >
+              <div className="flex items-center gap-2 border-b border-border/40 px-4 py-2.5">
+                <div className="size-2.5 rounded-full bg-destructive/60" />
+                <div className="size-2.5 rounded-full bg-primary/40" />
+                <div className="size-2.5 rounded-full bg-green-500/40" />
+                <span className="ml-2 text-[10px] font-medium text-muted-foreground">
+                  modern-shop ~/store
+                </span>
+              </div>
+              <div className="px-4 py-3 font-mono text-xs leading-5 text-muted-foreground">
+                <span className="text-primary">$</span>{" "}
+                <span className="text-foreground">bun run shop</span>
+                <span className="ml-2 text-muted-foreground/50">
+                  # Launch your storefront
+                </span>
+                <br />
+                <span className="text-green-400">✓</span>{" "}
+                <span className="text-foreground">200 products loaded</span>
+                <br />
+                <span className="text-green-400">✓</span>{" "}
+                <span className="text-foreground">cart ready</span>
+                <br />
+                <span className="text-green-400">✓</span>{" "}
+                <span className="text-foreground">server running on port 3000</span>
+              </div>
             </motion.div>
           </div>
         </div>
       </section>
 
       {/* Features */}
-      <section className="border-t border-border/60 bg-card/50">
+      <section className="border-t border-border/40">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 gap-8 py-16 sm:grid-cols-3 sm:gap-12">
+          <div className="grid grid-cols-1 gap-6 py-20 sm:grid-cols-3 sm:gap-8">
             {[
               {
-                icon: Package,
-                title: "Curated Selection",
-                desc: "Every item in our collection is chosen for its quality, design, and lasting value.",
-              },
-              {
-                icon: Truck,
-                title: "Fast Delivery",
-                desc: "Free shipping on all orders. Most items ship within 2–3 business days.",
+                icon: Zap,
+                title: "Fast by Default",
+                desc: "Built on Convex with real-time reactivity. Products, cart, and orders sync instantly across sessions.",
               },
               {
                 icon: Shield,
-                title: "Satisfaction Guaranteed",
-                desc: "Not in love? Return within 30 days for a full refund. No questions asked.",
+                title: "Secure Admin",
+                desc: "Password-protected admin panel. Add, edit, and remove products without touching the codebase.",
+              },
+              {
+                icon: Truck,
+                title: "Order Pipeline",
+                desc: "Customers browse, add to cart, and check out in seconds. Orders flow through a clean status pipeline.",
               },
             ].map((f, i) => (
               <motion.div
@@ -112,13 +158,13 @@ export default function Landing() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: i * 0.1 }}
-                className="flex flex-col items-center text-center"
+                className="group rounded-xl border border-border/40 bg-card/50 p-6 transition-colors hover:border-primary/20"
               >
-                <div className="mb-4 flex size-12 items-center justify-center rounded-2xl bg-secondary text-foreground">
+                <div className="mb-4 flex size-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
                   <f.icon className="size-5" />
                 </div>
-                <h3 className="text-base font-semibold">{f.title}</h3>
-                <p className="mt-2 max-w-xs text-sm leading-relaxed text-muted-foreground">
+                <h3 className="text-sm font-bold">{f.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
                   {f.desc}
                 </p>
               </motion.div>
@@ -129,36 +175,37 @@ export default function Landing() {
 
       {/* Featured Products */}
       {featured.length > 0 && (
-        <section className="py-20">
+        <section className="border-t border-border/40 py-20">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="mb-12 flex items-end justify-between">
+            <div className="mb-10 flex items-end justify-between">
               <div>
-                <p className="mb-1 text-xs font-medium uppercase tracking-widest text-muted-foreground">
+                <p className="mb-1 text-[10px] font-semibold uppercase tracking-widest text-primary">
                   Featured
                 </p>
-                <h2 className="text-3xl font-bold tracking-tight">
-                  Most Popular
+                <h2 className="text-2xl font-bold tracking-tight">
+                  Top Picks
                 </h2>
               </div>
               <Button
                 variant="ghost"
-                className="hidden gap-1 sm:flex"
+                className="hidden gap-1 text-sm sm:flex"
                 onClick={() => navigate("/store")}
               >
                 View all
-                <ArrowRight className="size-4" />
+                <ArrowRight className="size-3.5" />
               </Button>
             </div>
 
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {featured.map((product, i) => (
                 <motion.div
                   key={product._id}
-                  initial={{ opacity: 0, y: 24 }}
+                  initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: i * 0.1 }}
-                  className="group relative overflow-hidden rounded-2xl border border-border/60 bg-card"
+                  transition={{ duration: 0.45, delay: i * 0.08 }}
+                  onClick={() => navigate(`/product/${product._id}`)}
+                  className="group cursor-pointer overflow-hidden rounded-xl border border-border/50 bg-card transition-all hover:border-primary/30"
                 >
                   <div className="aspect-[4/3] overflow-hidden">
                     <img
@@ -167,22 +214,25 @@ export default function Landing() {
                       className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                   </div>
-                  <div className="p-5">
-                    <p className="mb-1 text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
+                  <div className="p-4">
+                    <p className="mb-1 text-[10px] font-semibold uppercase tracking-widest text-primary/80">
                       {product.category}
                     </p>
-                    <h3 className="text-base font-semibold">{product.name}</h3>
+                    <h3 className="text-sm font-bold">{product.name}</h3>
                     <div className="mt-3 flex items-center justify-between">
-                      <span className="text-lg font-bold">
+                      <span className="text-base font-bold">
                         ${product.price.toFixed(2)}
                       </span>
                       <Button
                         size="sm"
                         variant="outline"
-                        className="rounded-full"
-                        onClick={() => navigate("/store")}
+                        className="h-7 rounded-lg px-3 text-xs font-semibold"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          navigate("/store");
+                        }}
                       >
-                        Shop Now
+                        View
                       </Button>
                     </div>
                   </div>
@@ -193,11 +243,11 @@ export default function Landing() {
             <div className="mt-8 flex justify-center sm:hidden">
               <Button
                 variant="outline"
-                className="gap-1 rounded-full"
+                className="gap-1 rounded-lg text-sm"
                 onClick={() => navigate("/store")}
               >
                 View all products
-                <ArrowRight className="size-4" />
+                <ArrowRight className="size-3.5" />
               </Button>
             </div>
           </div>
@@ -205,40 +255,41 @@ export default function Landing() {
       )}
 
       {/* CTA */}
-      <section className="border-t border-border/60 bg-secondary/40">
+      <section className="border-t border-border/40">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col items-center py-20 text-center">
             <motion.h2
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="text-3xl font-bold tracking-tight sm:text-4xl"
+              className="text-2xl font-bold tracking-tight sm:text-3xl"
             >
-              Ready to elevate your space?
+              Ready to get started?
             </motion.h2>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
-              className="mt-4 max-w-md text-muted-foreground"
+              className="mt-3 max-w-sm text-sm text-muted-foreground"
             >
-              Explore our full collection and find pieces that speak to you.
+              Browse the full catalog, build your cart, and place your first
+              order in under a minute.
             </motion.p>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.2 }}
-              className="mt-8"
+              className="mt-8 flex gap-3"
             >
               <Button
                 size="lg"
-                className="rounded-full px-8 text-base"
+                className="gap-2 rounded-lg px-8 text-sm font-semibold"
                 onClick={() => navigate("/store")}
               >
-                Shop Now
-                <ArrowRight className="ml-2 size-4" />
+                Open Store
+                <ArrowRight className="size-4" />
               </Button>
             </motion.div>
           </div>
@@ -246,17 +297,17 @@ export default function Landing() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-border/60">
-        <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-          <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
+      <footer className="border-t border-border/40">
+        <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+          <div className="flex flex-col items-center justify-between gap-3 sm:flex-row">
             <div className="flex items-center gap-2">
-              <div className="flex size-7 items-center justify-center rounded-lg bg-foreground text-background">
-                <Package className="size-3.5" />
+              <div className="flex size-6 items-center justify-center rounded bg-primary text-[10px] font-bold text-primary-foreground">
+                M
               </div>
-              <span className="text-sm font-semibold">Atelier</span>
+              <span className="text-xs font-bold">Modern Shop</span>
             </div>
-            <p className="text-xs text-muted-foreground">
-              © 2026 Atelier. All rights reserved.
+            <p className="text-[11px] text-muted-foreground">
+              © 2026 Modern Shop. All rights reserved.
             </p>
           </div>
         </div>

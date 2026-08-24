@@ -32,6 +32,11 @@ const schema = defineSchema(
       role: v.optional(roleValidator), // role of the user. do not remove
     }).index("email", ["email"]), // index for the email. do not remove or modify
 
+    // Admin config (single row)
+    adminConfig: defineTable({
+      adminPasswordHash: v.string(),
+    }),
+
     // Products catalog
     products: defineTable({
       name: v.string(),
