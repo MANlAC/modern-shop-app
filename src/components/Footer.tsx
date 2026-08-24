@@ -11,7 +11,7 @@ export function Footer() {
               <div className="flex size-6 items-center justify-center rounded bg-primary text-[10px] font-bold text-primary-foreground">
                 M
               </div>
-              <span className="text-xs font-bold">Modern Shop</span>
+              <span className="text-xs font-bold">MANIAC SHOP</span>
             </div>
             <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
               A clean, fast storefront for browsing products and placing
@@ -67,7 +67,7 @@ export function Footer() {
 
         <div className="mt-8 border-t border-border/40 pt-6 text-center">
           <p className="text-[11px] text-muted-foreground">
-            © 2026 Modern Shop. All rights reserved.
+            © 2026 MANIAC SHOP. All rights reserved.
           </p>
         </div>
       </div>

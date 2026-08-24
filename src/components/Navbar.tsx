@@ -36,7 +36,7 @@ export function Navbar({ onCartOpen }: { onCartOpen: () => void }) {
             M
           </div>
           <span className="text-base font-bold tracking-tight text-foreground">
-            Modern Shop
+            MANIAC SHOP
           </span>
         </Link>
 

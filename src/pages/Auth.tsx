@@ -273,7 +273,7 @@ function Auth({ redirectAfterAuth }: AuthProps = {}) {
           )}
 
           <div className="py-4 px-6 text-xs text-center text-muted-foreground bg-secondary/50 border-t border-border/40 rounded-b-lg">
-            Secured by Modern Shop
+            Secured by MANIAC SHOP
           </div>
         </Card>
         </div>
