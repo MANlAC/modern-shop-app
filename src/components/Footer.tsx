@@ -31,7 +31,7 @@ export function Footer() {
                   className="flex items-center gap-2 text-xs text-muted-foreground transition-colors hover:text-foreground"
                 >
                   <Phone className="size-3.5" />
-                  +977 97749419302
+                  +977 9749419302
                 </a>
               </li>
               <li>
