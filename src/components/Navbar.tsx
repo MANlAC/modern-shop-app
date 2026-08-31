@@ -107,6 +107,12 @@ export function Navbar({ onCartOpen }: { onCartOpen: () => void }) {
                     Admin Panel
                   </DropdownMenuItem>
                 )}
+                {!isAdmin && isAuthenticated && (
+                  <DropdownMenuItem onClick={() => navigate("/admin/setup")}>
+                    <Shield className="mr-2 size-3.5" />
+                    Set Up Admin
+                  </DropdownMenuItem>
+                )}
                 <DropdownMenuSeparator />
                 <DropdownMenuItem
                   onClick={async () => {

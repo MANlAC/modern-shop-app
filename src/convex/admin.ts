@@ -104,6 +104,30 @@ export const elevateWithPassword = mutation({
   },
 });
 
+/** Revoke admin: demote self and delete admin config so a new admin can be set up */
+export const demoteSelf = mutation({
+  args: {},
+  handler: async (ctx) => {
+    const userId = await getAuthUserId(ctx);
+    if (!userId) throw new Error("You must be signed in");
+    const user = await ctx.db.get(userId);
+    if (!user || user.role !== "admin") {
+      throw new Error("Admin access required");
+    }
+
+    // Demote the current user back to customer
+    await ctx.db.patch(userId, { role: "user" });
+
+    // Delete the admin config so setup can be re-done
+    const config = await ctx.db.query("adminConfig").first();
+    if (config) {
+      await ctx.db.delete(config._id);
+    }
+
+    return "ok";
+  },
+});
+
 /** ───────── Product management (admin only) ───────── */
 
 function assertAdmin(ctx: any) {

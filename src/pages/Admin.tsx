@@ -48,6 +48,7 @@ export default function Admin() {
   const deleteProduct = useMutation(api.admin.deleteProduct);
   const updateOrderStatus = useMutation(api.orders.updateStatus);
   const changeAdminPassword = useMutation(api.admin.changeAdminPassword);
+  const demoteSelf = useMutation(api.admin.demoteSelf);
 
   const [cartOpen, setCartOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
@@ -67,6 +68,8 @@ export default function Admin() {
   const [newPassword, setNewPassword] = useState("");
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
   const [isChangingPassword, setIsChangingPassword] = useState(false);
+  const [showRevokeConfirm, setShowRevokeConfirm] = useState(false);
+  const [isRevoking, setIsRevoking] = useState(false);
 
   const resetForm = () => {
     setFormName("");
@@ -147,6 +150,20 @@ export default function Admin() {
     }
   };
 
+  const handleRevokeAdmin = async () => {
+    setIsRevoking(true);
+    try {
+      await demoteSelf();
+      toast.success("Admin access revoked. Refreshing...");
+      setShowRevokeConfirm(false);
+      setTimeout(() => window.location.reload(), 1000);
+    } catch {
+      toast.error("Failed to revoke admin access.");
+    } finally {
+      setIsRevoking(false);
+    }
+  };
+
   if (user?.role !== "admin") {
     return (
       <div className="min-h-screen bg-background">
@@ -194,6 +211,14 @@ export default function Admin() {
             </p>
             <h1 className="text-2xl font-bold tracking-tight">Dashboard</h1>
           </motion.div>
+          <Button
+            variant="destructive"
+            size="sm"
+            className="gap-1.5 text-xs"
+            onClick={() => setShowRevokeConfirm(true)}
+          >
+            Revoke Admin
+          </Button>
         </div>
 
         {/* Stats */}
@@ -532,6 +557,27 @@ export default function Admin() {
             >
               {isSaving && <Loader2 className="size-3 animate-spin" />}
               Delete
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Revoke Admin Confirmation */}
+      <Dialog open={showRevokeConfirm} onOpenChange={setShowRevokeConfirm}>
+        <DialogContent className="sm:max-w-sm">
+          <DialogHeader>
+            <DialogTitle>Revoke Admin Access</DialogTitle>
+          </DialogHeader>
+          <p className="text-sm text-muted-foreground">
+            This will remove your admin role and delete the admin password. You will lose access to the admin panel. A new admin can then be set up by any user.
+          </p>
+          <DialogFooter>
+            <Button variant="outline" size="sm" onClick={() => setShowRevokeConfirm(false)} disabled={isRevoking}>
+              Cancel
+            </Button>
+            <Button variant="destructive" size="sm" onClick={handleRevokeAdmin} disabled={isRevoking} className="gap-1.5">
+              {isRevoking && <Loader2 className="size-3 animate-spin" />}
+              Revoke
             </Button>
           </DialogFooter>
         </DialogContent>
