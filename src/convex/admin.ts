@@ -54,6 +54,56 @@ export const isConfigured = query({
   },
 });
 
+/** Change admin password (requires current password) */
+export const changeAdminPassword = mutation({
+  args: { currentPassword: v.string(), newPassword: v.string() },
+  handler: async (ctx, args) => {
+    const userId = await getAuthUserId(ctx);
+    if (!userId) throw new Error("You must be signed in");
+    const user = await ctx.db.get(userId);
+    if (!user || user.role !== "admin") {
+      throw new Error("Admin access required");
+    }
+
+    const config = await ctx.db.query("adminConfig").first();
+    if (!config) throw new Error("Admin access has not been configured yet");
+
+    const currentHash = hashPassword(args.currentPassword);
+    if (currentHash !== config.adminPasswordHash) {
+      throw new Error("Current password is incorrect");
+    }
+
+    if (args.newPassword.length < 6) {
+      throw new Error("New password must be at least 6 characters");
+    }
+
+    await ctx.db.patch(config._id, {
+      adminPasswordHash: hashPassword(args.newPassword),
+    });
+    return "ok";
+  },
+});
+
+/** Allow any authenticated user to elevate themselves if they know the admin password */
+export const elevateWithPassword = mutation({
+  args: { password: v.string() },
+  handler: async (ctx, args) => {
+    const userId = await getAuthUserId(ctx);
+    if (!userId) throw new Error("You must be signed in");
+
+    const config = await ctx.db.query("adminConfig").first();
+    if (!config) throw new Error("Admin access has not been configured yet");
+
+    const hash = hashPassword(args.password);
+    if (hash !== config.adminPasswordHash) {
+      throw new Error("Incorrect admin password");
+    }
+
+    await ctx.db.patch(userId, { role: "admin" });
+    return "ok";
+  },
+});
+
 /** ───────── Product management (admin only) ───────── */
 
 function assertAdmin(ctx: any) {

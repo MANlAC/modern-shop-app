@@ -47,6 +47,7 @@ export default function Admin() {
   const updateProduct = useMutation(api.admin.updateProduct);
   const deleteProduct = useMutation(api.admin.deleteProduct);
   const updateOrderStatus = useMutation(api.orders.updateStatus);
+  const changeAdminPassword = useMutation(api.admin.changeAdminPassword);
 
   const [cartOpen, setCartOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
@@ -60,6 +61,12 @@ export default function Admin() {
   const [formCategory, setFormCategory] = useState("");
   const [formInStock, setFormInStock] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
+
+  const [showPasswordChange, setShowPasswordChange] = useState(false);
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmNewPassword, setConfirmNewPassword] = useState("");
+  const [isChangingPassword, setIsChangingPassword] = useState(false);
 
   const resetForm = () => {
     setFormName("");
