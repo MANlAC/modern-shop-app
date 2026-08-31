@@ -65,6 +65,9 @@ const schema = defineSchema(
         v.literal("shipped"),
         v.literal("delivered"),
       ),
+      contactName: v.optional(v.string()),
+      contactPhone: v.optional(v.string()),
+      contactAddress: v.optional(v.string()),
       createdAt: v.number(),
     }).index("by_user", ["userId"])
       .index("by_status", ["status"])

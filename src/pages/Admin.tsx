@@ -408,6 +408,17 @@ export default function Admin() {
                         </div>
                       ))}
                     </div>
+
+                    {(order.contactName || order.contactPhone || order.contactAddress) && (
+                      <div className="mt-3 border-t border-border/30 pt-3">
+                        <p className="mb-1.5 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">Contact Info</p>
+                        <div className="space-y-0.5 text-xs text-muted-foreground">
+                          {order.contactName && <p><span className="font-medium text-foreground">Name:</span> {order.contactName}</p>}
+                          {order.contactPhone && <p><span className="font-medium text-foreground">Phone:</span> {order.contactPhone}</p>}
+                          {order.contactAddress && <p><span className="font-medium text-foreground">Address:</span> {order.contactAddress}</p>}
+                        </div>
+                      </div>
+                    )}
                   </div>
                 );
               })}

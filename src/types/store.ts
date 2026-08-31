@@ -27,5 +27,8 @@ export interface Order {
   items: OrderItem[];
   total: number;
   status: "pending" | "confirmed" | "shipped" | "delivered";
+  contactName?: string;
+  contactPhone?: string;
+  contactAddress?: string;
   createdAt: number;
 }

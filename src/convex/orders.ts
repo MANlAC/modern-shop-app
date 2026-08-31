@@ -13,6 +13,9 @@ export const place = mutation({
         quantity: v.number(),
       }),
     ),
+    contactName: v.optional(v.string()),
+    contactPhone: v.optional(v.string()),
+    contactAddress: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
     const userId = await getAuthUserId(ctx);
@@ -30,6 +33,9 @@ export const place = mutation({
       items: args.items,
       total,
       status: "pending",
+      contactName: args.contactName,
+      contactPhone: args.contactPhone,
+      contactAddress: args.contactAddress,
       createdAt: Date.now(),
     });
 

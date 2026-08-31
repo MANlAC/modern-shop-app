@@ -3,7 +3,7 @@ import { CartSheet } from "@/components/CartSheet";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { motion } from "framer-motion";
-import { Package, Clock, CheckCircle, Truck, ArrowLeft } from "lucide-react";
+import { Package, Clock, CheckCircle, Truck, ArrowLeft, User, Phone, MapPin } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router";
@@ -125,6 +125,34 @@ export default function Orders() {
                       </div>
                     ))}
                   </div>
+
+                  {(order.contactName || order.contactPhone || order.contactAddress) && (
+                    <div className="mt-3 border-t border-border/30 pt-3">
+                      <p className="mb-2 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+                        Delivery Details
+                      </p>
+                      <div className="space-y-1">
+                        {order.contactName && (
+                          <div className="flex items-center gap-2 text-xs">
+                            <User className="size-3 text-muted-foreground" />
+                            <span className="text-foreground">{order.contactName}</span>
+                          </div>
+                        )}
+                        {order.contactPhone && (
+                          <div className="flex items-center gap-2 text-xs">
+                            <Phone className="size-3 text-muted-foreground" />
+                            <span className="text-foreground">{order.contactPhone}</span>
+                          </div>
+                        )}
+                        {order.contactAddress && (
+                          <div className="flex items-center gap-2 text-xs">
+                            <MapPin className="size-3 text-muted-foreground" />
+                            <span className="text-foreground">{order.contactAddress}</span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  )}
                 </motion.div>
               );
             })
